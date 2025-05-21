@@ -1,0 +1,212 @@
+:root {
+  --main-bg: #f7f8fa;
+  --main-fg: #181a1b;
+  --accent: #007bff;
+  --success: #19c37d;
+  --warn: #ff9800;
+  --danger: #f44;
+  --disabled: #bbb;
+  --card-bg: #fff;
+  --border: #ddd;
+  --radius: 16px;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--main-bg);
+  color: var(--main-fg);
+}
+header {
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 1em;
+  justify-content: space-between;
+}
+header h1 { margin: 0; font-weight: 600; font-size: 1.4em; letter-spacing: 1px;}
+#settingsBtn {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.3em;
+  cursor: pointer;
+}
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1em;
+}
+#pumps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2em;
+  justify-content: center;
+}
+.pump-card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px #0001;
+  min-width: 260px;
+  max-width: 340px;
+  padding: 1.2em;
+  position: relative;
+  transition: box-shadow 0.13s;
+  margin-bottom: 1.5em;
+}
+.pump-card.low { border-color: var(--warn);}
+.pump-card.disabled { border-color: var(--disabled);}
+.pump-card .lock-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(160, 160, 160, 0.40);
+  border-radius: var(--radius);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3em;
+  color: #333b;
+  pointer-events: all;
+}
+.pump-card .lock-overlay .icon {font-size: 2.5em;}
+.pump-card h2 { margin-top: 0; font-size: 1.2em; }
+.pump-name-save {margin-left: 0.5em;}
+.pump-status, .pump-actions, .dose-history {margin: 0.7em 0;}
+.pump-action-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.5em 1.1em;
+  margin: 0.15em 0.20em 0.15em 0;
+  border-radius: 6px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+.pump-action-btn:hover { background: #0056b3; }
+.pump-card .pump-status {
+  font-size: 0.98em;
+  display: flex; flex-wrap: wrap; gap: 0.8em;
+  margin-bottom: 0.5em;
+}
+.pump-bulk-settings label { display: block; margin: 0.15em 0;}
+.pump-bulk-settings input, select { font-size: 1em; border-radius: 5px; padding: 0.22em 0.5em; border: 1px solid #ccc;}
+.pump-bulk-settings .bulk-save { margin-top: 0.7em;}
+.pump-bulk-settings {margin-bottom: 0.6em;}
+.dose-timeline {
+  width: 100%; height: 32px;
+  background: #e4e6ef;
+  border-radius: 10px;
+  position: relative;
+  margin-bottom: 0.6em;
+  margin-top: 0.7em;
+  display: flex; align-items: center;
+}
+.dose-timeline-marker {
+  position: absolute;
+  top: 3px;
+  width: 14px;
+  height: 26px;
+  background: var(--accent);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.95em;
+  text-align: center;
+  line-height: 26px;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px #0002;
+}
+.dose-timeline-marker.low {background: var(--warn);}
+.dose-timeline-marker.disabled {background: var(--disabled);}
+.timewheel-wrap { margin-bottom: 0.3em;}
+.hh-select, .mm-select {
+  font-size: 1em;
+  padding: 0.17em 0.45em;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+  margin: 0 0.18em;
+}
+label .dose-label-edit {margin-left:0.6em; font-size:0.97em;}
+.dose-history-toggle {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 1em;
+  cursor: pointer;
+  margin-bottom: 0.15em;
+}
+.dose-history {
+  background: #f4f5fa;
+  border-radius: 8px;
+  padding: 0.6em 0.5em;
+  font-size: 0.98em;
+  display: none;
+}
+.dose-history.open { display: block;}
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 8;}
+.modal-content {
+  background: #fff;
+  margin: 4% auto;
+  padding: 1.4em 2em;
+  width: 300px;
+  border-radius: 14px;
+  position: relative;
+}
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.6em;
+  position: absolute;
+  right: 18px; top: 12px;
+  color: #888;
+  cursor: pointer;
+}
+.action-btn { background: var(--accent); color: #fff; border-radius: 6px; border:none; font-size:1em; margin-top: 1em; padding: 0.4em 1em;}
+.toast {
+  position: fixed;
+  left: 50%; top: 20px;
+  transform: translateX(-50%);
+  background: #222e;
+  color: #fff;
+  padding: 0.9em 1.7em;
+  border-radius: 10px;
+  z-index: 200;
+  font-size: 1.07em;
+  display: none;
+}
+.toast-err { background: #c34e3c;}
+#progressBar {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 3.5px;
+  background: var(--accent);
+  display: none;
+  z-index: 100;
+}
+.schedule-toggle-wrap {
+  position: relative;
+  z-index: 10;
+  background: inherit;
+  padding-bottom: 0.5em;
+}
+.lock-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(160, 160, 160, 0.40);
+  border-radius: var(--radius);
+  z-index: 5; /* lower than the toggle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3em;
+  color: #333b;
+  pointer-events: all;
+}
+@media (max-width: 600px) {
+  #pumps { flex-direction: column; }
+  .pump-card { min-width: 96vw; max-width: 98vw; }
+}
