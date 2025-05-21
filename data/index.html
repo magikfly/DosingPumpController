@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dosing Pump Controller</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Dosing Pump Controller</h1>
+    <button id="settingsBtn" title="Settings">&#9881;</button>
+  </header>
+  <main>
+    <section id="pumps"></section>
+  </main>
+
+  <!-- SETTINGS MODAL -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <button id="closeSettings" class="close-btn">&times;</button>
+      <h2>Settings</h2>
+      <form id="settingsForm">
+        <label>WiFi SSID: <input type="text" id="ssid" required /></label>
+        <label>Password: <input type="password" id="password" required /></label>
+        <label>Timezone:
+          <select id="timezone">
+            <option value="UTC">UTC</option>
+            <option value="Europe/Amsterdam">Europe/Amsterdam</option>
+            <option value="America/New_York">America/New_York</option>
+            <option value="Asia/Tokyo">Asia/Tokyo</option>
+          </select>
+        </label>
+        <button type="submit" class="action-btn">Save &amp; Reboot</button>
+      </form>
+    </div>
+  </div>
+  <div id="toast"></div>
+  <div id="progressBar"></div>
+</body>
+</html>
