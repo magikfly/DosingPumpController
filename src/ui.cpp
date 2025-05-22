@@ -28,6 +28,8 @@ server.on("/pump_status", HTTP_GET, [](AsyncWebServerRequest *req) {
         obj["dailyDose"] = Storage::getDailyDose(i);
         obj["dosesPerDay"] = Storage::getDosesPerDay(i);
         obj["enabled"] = Storage::isPumpEnabled(i);
+        obj["activeDays"] = Storage::getPumpActiveDays(i);
+
         // Dose times
         JsonArray times = obj.createNestedArray("doseTimes");
         int doses = Storage::getDosesPerDay(i);
@@ -220,6 +222,21 @@ server.on("/pump_status", HTTP_GET, [](AsyncWebServerRequest *req) {
         request->send(200, "application/json", "{\"ok\":true}");
     }
 ));
+server.addHandler(new AsyncCallbackJsonWebHandler("/api/set_active_days",
+    [](AsyncWebServerRequest *request, JsonVariant &json) {
+        int pump = json["pump"] | 0;
+        int days = json["days"] | 0;
+        if (pump < 0 || pump >= NUM_PUMPS) {
+            request->send(400, "application/json", "{\"ok\":false}");
+            return;
+        }
+        Storage::setPumpActiveDays(pump, days);
+        request->send(200, "application/json", "{\"ok\":true}");
+    }
+));
+
+
+
     // --- Not found handler for debugging ---
     server.onNotFound([](AsyncWebServerRequest *request){
         Serial.print("[HTTP] Not found: ");

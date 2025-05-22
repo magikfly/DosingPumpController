@@ -116,6 +116,13 @@ void Storage::setDoseAmount(uint8_t pump, uint8_t dose, float amount) {
     prefs.putFloat(("doseAmt_" + String(pump) + "_" + String(dose)).c_str(), amount);
 }
 
+uint8_t Storage::getPumpActiveDays(uint8_t pump) {
+    return prefs.getUChar(("activeDays_" + String(pump)).c_str(), 0b01111110); // Default: Mon-Fri
+}
+void Storage::setPumpActiveDays(uint8_t pump, uint8_t days) {
+    prefs.putUChar(("activeDays_" + String(pump)).c_str(), days);
+}
+
 void Storage::saveAll() {
   prefs.end();
   prefs.begin("pumpcfg", false);

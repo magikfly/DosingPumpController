@@ -60,7 +60,9 @@ void Dosing::loop() {
   static uint8_t lastDosedDay[NUM_PUMPS][MAX_DOSES_PER_DAY] = {{0}};
 
   for (uint8_t p = 0; p < NUM_PUMPS; ++p) {
+    uint8_t daysMask = Storage::getPumpActiveDays(p);
     if (!Storage::isPumpEnabled(p)) continue;
+    if (!(daysMask & (1 << tmNow->tm_wday))) continue;
     uint8_t doses = Storage::getDosesPerDay(p);
     // For each scheduled dose
     for (uint8_t d = 0; d < doses; ++d) {
@@ -80,6 +82,8 @@ void Dosing::loop() {
     }
   }
 }
+
+
 
 void Dosing::calibrate(uint8_t pumpIndex) {
   // Calibration runs are handled via UI and corresponding handler calls startPump

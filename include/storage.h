@@ -50,6 +50,10 @@ namespace Storage {
   String getWiFiPassword();
   void setWiFiCredentials(const String &ssid, const String &pass);
 
+  uint8_t getPumpActiveDays(uint8_t pump);
+  void setPumpActiveDays(uint8_t pump, uint8_t days);
+
+
   String getTimezone();
   void setTimezone(const String &tz);
 
