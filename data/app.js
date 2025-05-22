@@ -299,12 +299,21 @@ async function renderDashboard() {
       };
 
       // Prime
-      card.querySelector(".prime-btn").onclick = async () => {
-        const ms = prompt("Enter ms to prime pump (e.g. 2000):");
-        if (ms > 0) {
-          await post("/api/prime", { pump: i, ms: parseInt(ms) });
-          toast("Priming...");
-        }
+      const primeBtn = card.querySelector(".prime-btn");
+      let primeTimeout = null;
+
+      primeBtn.onmousedown = primeBtn.ontouchstart = async (e) => {
+        e.preventDefault();
+        if (primeTimeout) clearTimeout(primeTimeout);
+        await post("/api/prime_start", { pump: i });
+        toast("Priming pump…");
+      };
+
+      primeBtn.onmouseup = primeBtn.onmouseleave = primeBtn.ontouchend = async (e) => {
+        e.preventDefault();
+        if (primeTimeout) clearTimeout(primeTimeout);
+        await post("/api/prime_stop", { pump: i });
+        toast("Prime stopped");
       };
 
       // Dose history (simulate; replace with real backend if available)

@@ -156,14 +156,22 @@ server.on("/pump_status", HTTP_GET, [](AsyncWebServerRequest *req) {
     ));
 
     // --- POST /api/prime ---
-    server.addHandler(new AsyncCallbackJsonWebHandler("/api/prime",
+    server.addHandler(new AsyncCallbackJsonWebHandler("/api/prime_start",
         [](AsyncWebServerRequest *request, JsonVariant &json) {
             int pump = json["pump"] | 0;
-            unsigned long ms = json["ms"] | 0;
-            Dosing::prime(pump, ms);
+            Dosing::primeStart(pump);
             request->send(200, "application/json", "{\"ok\":true}");
         }
     ));
+    server.addHandler(new AsyncCallbackJsonWebHandler("/api/prime_stop",
+        [](AsyncWebServerRequest *request, JsonVariant &json) {
+            int pump = json["pump"] | 0;
+            Dosing::primeStop(pump);
+            request->send(200, "application/json", "{\"ok\":true}");
+        }
+    ));
+    // --- Keep this for calibration or fixed-time actions ---
+
 
     // --- POST /api/set_wifi ---
     server.addHandler(new AsyncCallbackJsonWebHandler("/api/set_wifi",
